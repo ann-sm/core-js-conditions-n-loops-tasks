@@ -289,7 +289,14 @@ function getIndexOf(str, letter) {
  *  12345, 6    => false
  */
 function isContainNumber(num, digit) {
-
+  let number = num;
+  while (number > 0) {
+    if (number % 10 === digit) {
+      return true;
+    }
+    number = Math.floor(number / 10);
+  }
+  return false;
 }
 
 /**
@@ -305,8 +312,26 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let result = -1;
+
+  for (let i = 0; i < arr.length; i += 1) {
+    let sumLeft = 0;
+    let sumRight = 0;
+
+    for (let k = i - 1; k >= 0; k -= 1) {
+      sumLeft += arr[k];
+    }
+
+    for (let j = i + 1; j < arr.length; j += 1) {
+      sumRight += arr[j];
+    }
+
+    if (sumLeft === sumRight) {
+      result = i;
+    }
+  }
+  return result;
 }
 
 /**
@@ -330,8 +355,47 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const arr = [];
+  for (let k = 0; k < size; k += 1) {
+    arr[k] = [];
+    for (let l = 0; l < size; l += 1) {
+      arr[k][l] = [];
+    }
+  }
+
+  let matrixRow = 0;
+  let matrixColumn = 0;
+  let matrixRowEnd = size - 1;
+  let matrixColumnEnd = size - 1;
+  let n = 1;
+
+  while (matrixColumn <= matrixColumnEnd && matrixRow <= matrixRowEnd) {
+    for (let j = matrixColumn; j < matrixColumnEnd + 1; j += 1) {
+      arr[matrixRow][j] = n;
+      n += 1;
+    }
+    matrixRow += 1;
+
+    for (let i = matrixRow; i < matrixRowEnd + 1; i += 1) {
+      arr[i][matrixColumnEnd] = n;
+      n += 1;
+    }
+    matrixColumnEnd -= 1;
+
+    for (let j = matrixColumnEnd; j >= matrixColumn; j -= 1) {
+      arr[matrixRowEnd][j] = n;
+      n += 1;
+    }
+    matrixRowEnd -= 1;
+
+    for (let i = matrixRowEnd; i >= matrixRow; i -= 1) {
+      arr[i][matrixColumn] = n;
+      n += 1;
+    }
+    matrixColumn += 1;
+  }
+  return arr;
 }
 
 /**
@@ -349,8 +413,36 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const arr = matrix;
+  const size = arr[0].length;
+
+  const newArray = [];
+  for (let k = 0; k < size; k += 1) {
+    newArray[k] = [];
+    for (let l = 0; l < size; l += 1) {
+      newArray[k][l] = [];
+    }
+  }
+
+  const matrixRow = 0;
+  const matrixColumn = 0;
+  const matrixRowEnd = size - 1;
+  const matrixColumnEnd = size - 1;
+
+  for (let i = matrixRow; i < matrixRowEnd + 1; i += 1) {
+    for (let j = matrixColumn; j < matrixColumnEnd + 1; j += 1) {
+      newArray[i][j] = arr[matrixRowEnd - j][matrixColumn + i];
+    }
+  }
+
+  for (let i = matrixRow; i < matrixRowEnd + 1; i += 1) {
+    for (let j = matrixColumn; j < matrixColumnEnd + 1; j += 1) {
+      arr[i][j] = newArray[i][j];
+    }
+  }
+
+  return matrix;
 }
 
 /**
@@ -367,8 +459,20 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const newArr = arr;
+
+  for (let i = 0; i < newArr.length; i += 1) {
+    let min = i;
+
+    for (let j = i + 1; j < newArr.length; j += 1) {
+      if (newArr[min] > newArr[j]) {
+        min = j;
+      }
+    }
+    [newArr[i], newArr[min]] = [newArr[min], newArr[i]];
+  }
+  return arr;
 }
 
 /**
@@ -389,6 +493,15 @@ function sortByAsc(/* arr */) {
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
 function shuffleChar(/* str, iterations */) {
+  // let newStr = '';
+
+  // for (let j = 1; j < iterations; j += 1) {
+  //   if (newStr !== str) {
+  //     for (let i = 1; i < str.length; i += 2) {
+  //       newStr = `${str.slice(0, i)}${str.slice(i + 1)}${str[i]}`;
+  //     }
+  //   }
+  // }
   throw new Error('Not implemented');
 }
 
